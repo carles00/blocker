@@ -1,0 +1,128 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id
+  sub            String
+  username       String    @unique
+  description    String?
+  email          String    @unique
+  completedSetup Boolean   @default(false)
+  picture        String?
+  Route          Route?
+  User_A         User[]    @relation("UserFollows")
+  User_B         User[]    @relation("UserFollows")
+  //gymId          Int?
+  //attemptedRoutes UserRoute[]
+  // gym             Gym?        @relation(name: "gymOwner")
+  // favouriteGym    Gym?        @relation(name: "favouriteGym", fields: [gymId], references: [id])
+  name           String
+  emailVerified  Boolean
+  image          String?
+  createdAt      DateTime
+  updatedAt      DateTime
+  sessions       Session[]
+  accounts       Account[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+
+
+
+model Route {
+  id          String   @id
+  userId      String
+  name        String
+  grade       String
+  picture     String
+  description String?
+  sctive      Boolean
+  setDate     DateTime
+  tries       Int      @default(0)
+  completed   Boolean  @default(false)
+  rating      Int      @default(0)
+  User        User     @relation(fields: [id], references: [id])
+  //attempts    UserRoute[]
+}
+
+
+// model Gym {
+//   id          Int     @id @default(autoincrement())
+//   name        String
+//   email       String  @unique
+//   address     String
+//   rating      Int     @default(0)
+//   description String?
+//   website     String?
+//   phone       String?
+//   logo        String?
+//   owner       User    @relation(name: "gymOwner", fields: [id], references: [id])
+//   users       User[]  @relation(name: "favouriteGym")
+//   userId      Int
+// }
+
+// model UserRoute {
+//   userId    Int
+//   routeId   Int
+//   tires     Int     @default(0)
+//   completed Boolean @default(false)
+//   rating    Int     @default(0)
+//   User      User    @relation(fields: [userId], references: [id])
+//   Route     Route   @relation(fields: [routeId], references: [id])
+
+//   @@id([userId, routeId])
+// }
+
