@@ -10,26 +10,24 @@ datasource db {
 
 model User {
   id             String    @id
-  sub            String
-  username       String    @unique
-  description    String?
+  name           String
   email          String    @unique
+  createdAt      DateTime
+  updatedAt      DateTime
+  sessions       Session[]
+  emailVerified  Boolean
+  description    String?
+  accounts       Account[]
   completedSetup Boolean   @default(false)
   picture        String?
   Route          Route?
   User_A         User[]    @relation("UserFollows")
   User_B         User[]    @relation("UserFollows")
+  image          String?
   //gymId          Int?
   //attemptedRoutes UserRoute[]
   // gym             Gym?        @relation(name: "gymOwner")
   // favouriteGym    Gym?        @relation(name: "favouriteGym", fields: [gymId], references: [id])
-  name           String
-  emailVerified  Boolean
-  image          String?
-  createdAt      DateTime
-  updatedAt      DateTime
-  sessions       Session[]
-  accounts       Account[]
 
   @@map("user")
 }
