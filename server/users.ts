@@ -1,6 +1,5 @@
 "use client";
 
-import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/client";
 import { redirect } from "next/navigation";
 
@@ -9,8 +8,8 @@ export const signIn = async (email: string, password: string) => {
         email: email,
         password: password
     }, {
-      onSuccess(ctx){
-        redirect('/dashboard')
+      onSuccess(){
+        redirect('/feed')
       }
     });
 
@@ -22,7 +21,7 @@ export const signUp = async (email: string, password: string, name: string) => {
         password: password,
         name: name
     }, {
-      onSuccess(ctx){
+      onSuccess(){
         redirect('/sign-in')
       }
     })
