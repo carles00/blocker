@@ -9,8 +9,8 @@ export default async function Home() {
   });
 
   return (
-    <div className="grid w-screen h-screen font-montserrat md:grid-cols-7">
-      <main className="col-span-4 flex flex-col items-center justify-center gap-20 bg-stone-600">
+    <main className="grid w-screen h-screen font-montserrat md:grid-cols-7">
+      <div className="col-span-4 flex flex-col items-center justify-center gap-20 bg-stone-600">
         <div className="landing__info__title">
           <span className="text-7xl font-extrabold text-orange-100">
             Bloc<span className="text-lime-600">K</span>er
@@ -30,8 +30,8 @@ export default async function Home() {
         <div className="flex p-3 bg-lime-600">
           <Link className="" href="/sign-in">Sign In</Link>
         </div>
-      </main>
+      </div>
       <aside className="col-span-3 hidden h-screen overflow-hidden bg-[url(/images/homeImage2.webp)] bg-center md:flex"></aside>
-    </div>
+    </main>
   );
 }
